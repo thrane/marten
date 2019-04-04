@@ -20,10 +20,6 @@ namespace Marten.Schema
         public string TypedLocator { get; } = "d.id";
         public string RawLocator { get; } = "d.id";
         public string ColumnName { get; } = "id";
-        public void WritePatch(DocumentMapping mapping, SchemaPatch patch)
-        {
-            // Nothing
-        }
 
         public object GetValue(Expression valueExpression)
         {

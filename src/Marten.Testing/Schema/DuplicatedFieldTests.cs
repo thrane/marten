@@ -13,12 +13,6 @@ namespace Marten.Testing.Schema
     {
         private DuplicatedField theField = new DuplicatedField(EnumStorage.AsInteger, new MemberInfo[] { ReflectionHelper.GetProperty<User>(x => x.FirstName) });
 
-        [Fact]
-        public void default_role_is_search()
-        {
-            theField
-                .Role.ShouldBe(DuplicatedFieldRole.Search);
-        }
 
         [Fact]
         public void create_table_column_for_non_indexed_search()

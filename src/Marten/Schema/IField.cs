@@ -22,7 +22,6 @@ namespace Marten.Schema
 
         string ColumnName { get; }
 
-        void WritePatch(DocumentMapping mapping, SchemaPatch patch);
         object GetValue(Expression valueExpression);
 
         /// <summary>

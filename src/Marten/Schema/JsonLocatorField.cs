@@ -96,11 +96,6 @@ namespace Marten.Schema
         public string RawLocator { get; }
         public string ColumnName => string.Empty;
 
-        public void WritePatch(DocumentMapping mapping, SchemaPatch patch)
-        {
-            throw new NotSupportedException();
-        }
-
         public object GetValue(Expression valueExpression)
         {
             return _parseObject(valueExpression);

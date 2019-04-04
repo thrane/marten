@@ -63,7 +63,6 @@ namespace Marten.Schema
         /// </summary>
         public NpgsqlDbType DbType { get; set; }
 
-        public DuplicatedFieldRole Role { get; set; } = DuplicatedFieldRole.Search;
 
         public UpsertArgument UpsertArgument => new UpsertArgument
         {
@@ -84,13 +83,6 @@ namespace Marten.Schema
                 _columnName = value;
                 TypedLocator = "d." + _columnName;
             }
-        }
-
-        public void WritePatch(DocumentMapping mapping, SchemaPatch patch)
-        {
-            patch.Updates.Apply(mapping, $"ALTER TABLE {mapping.Table.QualifiedName} ADD COLUMN {ColumnName} {PgType.Trim()};");
-
-            patch.UpWriter.WriteLine($"update {mapping.Table.QualifiedName} set {UpdateSqlFragment()};");
         }
 
         // TODO -- have this take in CommandBuilder

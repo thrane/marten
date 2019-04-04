@@ -30,7 +30,6 @@ namespace Marten.Schema
         public MemberInfo[] Members { get; }
         public string MemberName { get; }
 
-        public NpgsqlDbType NpgsqlDbType => TypeMappings.ToDbType(FieldType);
 
         protected readonly EnumStorage _enumStorage;
     }
