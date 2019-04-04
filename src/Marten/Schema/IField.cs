@@ -8,7 +8,6 @@ namespace Marten.Schema
     public interface IField
     {
         MemberInfo[] Members { get; }
-        string MemberName { get; }
 
         /// <summary>
         /// Postgresql locator that also casts the raw string data to the proper Postgresql type

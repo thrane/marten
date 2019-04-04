@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
 using Marten.Linq;
@@ -85,12 +86,22 @@ namespace Marten.Schema
             return Parent.FieldFor(members) ?? _inner.FieldFor(members);
         }
 
+        public IField FieldFor(MemberInfo member)
+        {
+            return Parent.FieldFor(member) ?? _inner.FieldFor(member);
+        }
+
+        public IField FieldFor(Expression expression)
+        {
+            return Parent.FieldFor(expression) ?? _inner.FieldFor(expression);
+        }
+
         public IWhereFragment FilterDocuments(QueryModel model, IWhereFragment query)
         {
             var extras = extraFilters(query).ToArray();
 
-			var extraCoumpound = new CompoundWhereFragment("and", extras);
-			return new CompoundWhereFragment("and", query, extraCoumpound);
+			var extraCompound = new CompoundWhereFragment("and", extras);
+			return new CompoundWhereFragment("and", query, extraCompound);
         }
 
         private IEnumerable<IWhereFragment> extraFilters(IWhereFragment query)

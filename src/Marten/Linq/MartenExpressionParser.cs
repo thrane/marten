@@ -139,8 +139,7 @@ namespace Marten.Linq
 
         private IWhereFragment buildChildCollectionQuery(IQueryableDocument mapping, QueryModel query, Expression valueExpression, string op)
         {
-            var members = FindMembers.Determine(query.MainFromClause.FromExpression);
-            var field = mapping.FieldFor(members);
+            var field = mapping.FieldFor(query.MainFromClause.FromExpression);
 
             if (query.HasOperator<CountResultOperator>())
             {

@@ -75,7 +75,7 @@ namespace Marten.Linq.Compiled
 
 	    protected override Expression VisitMember(MemberExpression node)
         {
-            _lastMember = _mapping.FieldFor(new[] { node.Member });
+            _lastMember = _mapping.FieldFor(node.Member );
 
             if (node.NodeType != ExpressionType.MemberAccess || node.Member.DeclaringType != _queryType)
                 return base.VisitMember(node);

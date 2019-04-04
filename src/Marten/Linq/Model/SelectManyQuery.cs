@@ -35,8 +35,7 @@ namespace Marten.Linq.Model
 
             _from = query.BodyClauses[index - 1].As<AdditionalFromClause>();
 
-            var members = FindMembers.Determine(_from.FromExpression);
-            _field = mapping.FieldFor(members);
+            _field = mapping.FieldFor(_from.FromExpression);
 
             IsDistinct = query.HasOperator<DistinctResultOperator>();
 

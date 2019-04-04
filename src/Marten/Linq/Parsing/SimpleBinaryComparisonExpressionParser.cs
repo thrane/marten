@@ -38,16 +38,13 @@ namespace Marten.Linq.Parsing
             var jsonLocatorExpression = isValueExpressionOnRight ? expression.Left : expression.Right;
             var valueExpression = isValueExpressionOnRight ? expression.Right : expression.Left;
 
-            var members = FindMembers.Determine(jsonLocatorExpression);
-
-            var field = mapping.FieldFor(members);
+            var field = mapping.FieldFor(jsonLocatorExpression);
 
 	        object value;
 
 	        if (valueExpression is MemberExpression memberAccess)
 	        {
-		        var membersOther = FindMembers.Determine(memberAccess);
-		        var fieldOther = mapping.FieldFor(membersOther);
+		        var fieldOther = mapping.FieldFor(memberAccess);
 		        value = fieldOther.TypedLocator;
 	        }
 	        else
@@ -60,7 +57,7 @@ namespace Marten.Linq.Parsing
 
             var useContainment = mapping.PropertySearching == PropertySearching.ContainmentOperator || field.ShouldUseContainmentOperator();
 
-            var isDuplicated = (mapping.FieldFor(members) is DuplicatedField);
+            var isDuplicated = (field is DuplicatedField);
             var isEnumString = field.FieldType.GetTypeInfo().IsEnum && serializer.EnumStorage == EnumStorage.AsString;
 
             if (useContainment &&

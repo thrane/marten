@@ -85,11 +85,7 @@ namespace Marten.Linq.Parsing
         {
             IField GetField(Expression e)
             {
-                var visitor = new FindMembers();
-                visitor.Visit(e);
-
-                var field = mapping.FieldFor(visitor.Members);
-                return field;
+                return mapping.FieldFor(e);
             }
 
             if (!expression.Method.IsStatic && expression.Object != null && expression.Object.NodeType != ExpressionType.Constant)

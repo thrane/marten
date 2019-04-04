@@ -2,8 +2,10 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
+using Marten.Linq;
 
 namespace Marten.Schema
 {
@@ -41,6 +43,13 @@ namespace Marten.Schema
             return _fields.Values;
         }
 
+        public IField FieldFor(Expression expression)
+        {
+            // TODO -- will get fancier
+            return FieldFor(FindMembers.Determine(expression));
+        }
+
+        [Obsolete("Should go away in favor of FieldFor up above that takes in an Expression")]
         public IField FieldFor(IEnumerable<MemberInfo> members)
         {
             if (members.Count() == 1)
