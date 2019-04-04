@@ -95,7 +95,7 @@ namespace Marten.Schema
             return $"{ColumnName} = {sqlLocator}";
         }
 
-        public object GetValue(Expression valueExpression)
+        public object GetValueForCompiledQueryParameter(Expression valueExpression)
         {
             return _parseObject(valueExpression);
         }

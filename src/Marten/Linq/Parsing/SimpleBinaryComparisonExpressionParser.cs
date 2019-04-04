@@ -50,7 +50,7 @@ namespace Marten.Linq.Parsing
 	        else
 	        {
 		        memberAccess = null;
-				value = field.GetValue(valueExpression);
+				value = field.GetValueForCompiledQueryParameter(valueExpression);
 	        }
 
 	        var jsonLocator = field.TypedLocator;

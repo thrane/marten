@@ -104,7 +104,7 @@ namespace Marten.Linq.Compiled
         {
             if (node.Type != _queryType)
             {
-                var value = _lastMember.GetValue(node);
+                var value = _lastMember.GetValueForCompiledQueryParameter(node);
 
                 var setter = new ConstantDbParameterSetter(value);
                 ParameterSetters.Add(setter);

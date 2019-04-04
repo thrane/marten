@@ -143,7 +143,7 @@ namespace Marten.Linq
 
             if (query.HasOperator<CountResultOperator>())
             {
-                var value = field.GetValue(valueExpression);
+                var value = field.GetValueForCompiledQueryParameter(valueExpression);
 
                 return new WhereFragment($"jsonb_array_length({field.TypedLocator}) {op} ?", value);
             }

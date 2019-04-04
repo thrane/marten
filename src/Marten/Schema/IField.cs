@@ -19,9 +19,13 @@ namespace Marten.Schema
         /// </summary>
         string RawLocator { get; }
 
-        string ColumnName { get; }
-
-        object GetValue(Expression valueExpression);
+        /// <summary>
+        /// May "correct" the raw value as appropriate for the constant parameter value
+        /// within a compiled query
+        /// </summary>
+        /// <param name="valueExpression"></param>
+        /// <returns></returns>
+        object GetValueForCompiledQueryParameter(Expression valueExpression);
 
         /// <summary>
         /// The .Net type of this IField

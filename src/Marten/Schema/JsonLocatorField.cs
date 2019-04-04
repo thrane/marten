@@ -94,9 +94,8 @@ namespace Marten.Schema
 
         public string TypedLocator { get; }
         public string RawLocator { get; }
-        public string ColumnName => string.Empty;
 
-        public object GetValue(Expression valueExpression)
+        public object GetValueForCompiledQueryParameter(Expression valueExpression)
         {
             return _parseObject(valueExpression);
         }

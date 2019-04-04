@@ -87,9 +87,7 @@ namespace Marten.Schema
             });
         }
 
-        public IField FieldForColumn(string columnName)
-        {
-            return _fields.Values.FirstOrDefault(x => x.ColumnName == columnName);
-        }
     }
+
+
 }

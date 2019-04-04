@@ -52,7 +52,7 @@ namespace Marten.Testing.Schema
 
             var constant = Expression.Constant((int)Colors.Blue);
 
-            field.GetValue(constant).ShouldBe(Colors.Blue.ToString());
+            field.GetValueForCompiledQueryParameter(constant).ShouldBe(Colors.Blue.ToString());
         }
 
         [Theory]
