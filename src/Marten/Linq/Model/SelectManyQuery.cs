@@ -47,13 +47,13 @@ namespace Marten.Linq.Model
 
 
             _tableAlias = "sub" + Index;
-            _documentType = _field.MemberType.DeriveElementType();
+            _documentType = _field.FieldType.DeriveElementType();
             _document = _store.Options.GetChildDocument(_tableAlias + ".x", _documentType);
         }
 
         public int Index { get; set; }
 
-        public string SqlLocator => _field.SqlLocator;
+        public string SqlLocator => _field.TypedLocator;
 
         public bool IsDistinct { get; }
 
@@ -96,16 +96,16 @@ namespace Marten.Linq.Model
             }
 
             if (typeof(T) == typeof(string))
-                return new SingleFieldSelector<T>(IsDistinct, $"jsonb_array_elements_text({_field.SqlLocator}) as x");
+                return new SingleFieldSelector<T>(IsDistinct, $"jsonb_array_elements_text({_field.TypedLocator}) as x");
             if (TypeMappings.HasTypeMapping(typeof(T)))
                 return new ArrayElementFieldSelector<T>(IsDistinct, _field, conversions);
 
-            return new DeserializeSelector<T>(serializer, $"jsonb_array_elements_text({_field.SqlLocator}) as x");
+            return new DeserializeSelector<T>(serializer, $"jsonb_array_elements_text({_field.TypedLocator}) as x");
         }
 
         public string RawChildElementField()
         {
-            return $"jsonb_array_elements({_field.SqlLocator}) as x";
+            return $"jsonb_array_elements({_field.TypedLocator}) as x";
         }
 
         public bool HasSelectTransform()

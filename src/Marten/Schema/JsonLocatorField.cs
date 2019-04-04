@@ -27,25 +27,25 @@ namespace Marten.Schema
             var isStringEnum = memberType.IsEnum && enumStyle == EnumStorage.AsString;
             if (memberType == typeof(string) || isStringEnum)
             {
-                SqlLocator = $"{dataLocator} ->> '{memberName}'";
+                TypedLocator = $"{dataLocator} ->> '{memberName}'";
             }
             else if (TypeMappings.TimespanTypes.Contains(memberType))
             {
-                SqlLocator = $"{options.DatabaseSchemaName}.mt_immutable_timestamp({dataLocator} ->> '{memberName}')";
-                SelectionLocator = $"CAST({dataLocator} ->> '{memberName}' as {PgType})";
+                TypedLocator = $"{options.DatabaseSchemaName}.mt_immutable_timestamp({dataLocator} ->> '{memberName}')";
+                RawLocator = $"CAST({dataLocator} ->> '{memberName}' as {PgType})";
             }
             else if (TypeMappings.TimespanZTypes.Contains(memberType))
             {
-                SqlLocator = $"{options.DatabaseSchemaName}.mt_immutable_timestamptz({dataLocator} ->> '{memberName}')";
-                SelectionLocator = $"CAST({dataLocator} ->> '{memberName}' as {PgType})";
+                TypedLocator = $"{options.DatabaseSchemaName}.mt_immutable_timestamptz({dataLocator} ->> '{memberName}')";
+                RawLocator = $"CAST({dataLocator} ->> '{memberName}' as {PgType})";
             }
             else if (memberType.IsArray)
             {
-                SqlLocator = $"CAST({dataLocator} ->> '{memberName}' as jsonb)";
+                TypedLocator = $"CAST({dataLocator} ->> '{memberName}' as jsonb)";
             }
             else
             {
-                SqlLocator = $"CAST({dataLocator} ->> '{memberName}' as {PgType})";
+                TypedLocator = $"CAST({dataLocator} ->> '{memberName}' as {PgType})";
             }
 
             if (isStringEnum)
@@ -53,13 +53,13 @@ namespace Marten.Schema
                 _parseObject = expression =>
                 {
                     var raw = expression.Value();
-                    return Enum.GetName(MemberType, raw);
+                    return Enum.GetName(FieldType, raw);
                 };
             }
 
-            if (SelectionLocator.IsEmpty())
+            if (RawLocator.IsEmpty())
             {
-                SelectionLocator = SqlLocator;
+                RawLocator = TypedLocator;
             }
         }
 
@@ -74,26 +74,26 @@ namespace Marten.Schema
 
             locator += $" ->> '{members.Last().Name.FormatCase(casing)}'";
 
-            SqlLocator = MemberType == typeof(string) ? locator : locator.ApplyCastToLocator(enumStyle, MemberType);
+            TypedLocator = FieldType == typeof(string) ? locator : locator.ApplyCastToLocator(enumStyle, FieldType);
 
-            var isStringEnum = MemberType.IsEnum && enumStyle == EnumStorage.AsString;
+            var isStringEnum = FieldType.IsEnum && enumStyle == EnumStorage.AsString;
             if (isStringEnum)
             {
                 _parseObject = expression =>
                 {
                     var raw = expression.Value();
-                    return Enum.GetName(MemberType, raw);
+                    return Enum.GetName(FieldType, raw);
                 };
             }
         }
 
         public string ToComputedIndex(DbObjectName tableName)
         {
-            return $"CREATE INDEX {tableName.Name}_{MemberName.ToTableAlias()} ON {tableName.QualifiedName} (({SqlLocator}));";
+            return $"CREATE INDEX {tableName.Name}_{MemberName.ToTableAlias()} ON {tableName.QualifiedName} (({TypedLocator}));";
         }
 
-        public string SqlLocator { get; }
-        public string SelectionLocator { get; }
+        public string TypedLocator { get; }
+        public string RawLocator { get; }
         public string ColumnName => string.Empty;
 
         public void WritePatch(DocumentMapping mapping, SchemaPatch patch)
@@ -108,13 +108,13 @@ namespace Marten.Schema
 
         public bool ShouldUseContainmentOperator()
         {
-            return TypeMappings.ContainmentOperatorTypes.Contains(MemberType);
+            return TypeMappings.ContainmentOperatorTypes.Contains(FieldType);
         }
 
         public string LocatorFor(string rootTableAlias)
         {
             // Super hokey.
-            return SqlLocator.Replace("d.", rootTableAlias + ".");
+            return TypedLocator.Replace("d.", rootTableAlias + ".");
         }
     }
 }

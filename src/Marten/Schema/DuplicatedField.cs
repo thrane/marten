@@ -22,7 +22,7 @@ namespace Marten.Schema
             ColumnName = MemberName.ToTableAlias();
             this.useTimestampWithoutTimeZoneForDateTime = useTimestampWithoutTimeZoneForDateTime;
 
-            if (MemberType.IsEnum)
+            if (FieldType.IsEnum)
             {
                 if (enumStorage == EnumStorage.AsString)
                 {
@@ -32,7 +32,7 @@ namespace Marten.Schema
                     _parseObject = expression =>
                     {
                         var raw = expression.Value();
-                        return Enum.GetName(MemberType, raw);
+                        return Enum.GetName(FieldType, raw);
                     };
                 }
                 else
@@ -41,19 +41,19 @@ namespace Marten.Schema
                     PgType = "integer";
                 }
             }
-            else if (MemberType.IsDateTime())
+            else if (FieldType.IsDateTime())
             {
                 PgType = this.useTimestampWithoutTimeZoneForDateTime ? "timestamp without time zone" : "timestamp with time zone";
                 DbType = this.useTimestampWithoutTimeZoneForDateTime ? NpgsqlDbType.Timestamp : NpgsqlDbType.TimestampTz;
             }
-            else if (MemberType == typeof(DateTimeOffset) || MemberType == typeof(DateTimeOffset?))
+            else if (FieldType == typeof(DateTimeOffset) || FieldType == typeof(DateTimeOffset?))
             {
                 PgType = "timestamp with time zone";
                 DbType = NpgsqlDbType.TimestampTz;
             }
             else
             {
-                DbType = TypeMappings.ToDbType(MemberType);
+                DbType = TypeMappings.ToDbType(FieldType);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Marten.Schema
             DbType = DbType
         };
 
-        public string SelectionLocator => SqlLocator;
+        public string RawLocator => TypedLocator;
 
         public string ColumnName
         {
@@ -82,7 +82,7 @@ namespace Marten.Schema
             set
             {
                 _columnName = value;
-                SqlLocator = "d." + _columnName;
+                TypedLocator = "d." + _columnName;
             }
         }
 
@@ -98,7 +98,7 @@ namespace Marten.Schema
         {
             var jsonField = new JsonLocatorField("d.data", _enumStorage, Casing.Default, Members);
             // HOKEY, but I'm letting it pass for now.
-            var sqlLocator = jsonField.SqlLocator.Replace("d.", "");
+            var sqlLocator = jsonField.TypedLocator.Replace("d.", "");
 
             return $"{ColumnName} = {sqlLocator}";
         }
@@ -118,7 +118,7 @@ namespace Marten.Schema
             return $"{rootTableAlias}.{_columnName}";
         }
 
-        public string SqlLocator { get; set; }
+        public string TypedLocator { get; set; }
 
         public static DuplicatedField For<T>(EnumStorage enumStorage, Expression<Func<T, object>> expression, bool useTimestampWithoutTimeZoneForDateTime = true)
         {

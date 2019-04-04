@@ -18,7 +18,7 @@ namespace Marten.Linq.Parsing
 
             var field = mapping.FieldFor(members);
 
-            return new WhereFragment($"({field.SelectionLocator} is null or jsonb_array_length({field.SelectionLocator}) = 0)");
+            return new WhereFragment($"({field.RawLocator} is null or jsonb_array_length({field.RawLocator}) = 0)");
         }
     }
 }

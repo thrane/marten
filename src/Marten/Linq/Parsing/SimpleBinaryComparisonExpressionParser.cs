@@ -48,7 +48,7 @@ namespace Marten.Linq.Parsing
 	        {
 		        var membersOther = FindMembers.Determine(memberAccess);
 		        var fieldOther = mapping.FieldFor(membersOther);
-		        value = fieldOther.SqlLocator;
+		        value = fieldOther.TypedLocator;
 	        }
 	        else
 	        {
@@ -56,12 +56,12 @@ namespace Marten.Linq.Parsing
 				value = field.GetValue(valueExpression);
 	        }
 
-	        var jsonLocator = field.SqlLocator;
+	        var jsonLocator = field.TypedLocator;
 
             var useContainment = mapping.PropertySearching == PropertySearching.ContainmentOperator || field.ShouldUseContainmentOperator();
 
             var isDuplicated = (mapping.FieldFor(members) is DuplicatedField);
-            var isEnumString = field.MemberType.GetTypeInfo().IsEnum && serializer.EnumStorage == EnumStorage.AsString;
+            var isEnumString = field.FieldType.GetTypeInfo().IsEnum && serializer.EnumStorage == EnumStorage.AsString;
 
             if (useContainment &&
                 expression.NodeType == ExpressionType.Equal && value != null && !isDuplicated && !isEnumString)

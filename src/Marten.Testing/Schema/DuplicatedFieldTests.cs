@@ -39,14 +39,14 @@ namespace Marten.Testing.Schema
         [Fact]
         public void sql_locator_with_default_column_name()
         {
-            theField.SqlLocator.ShouldBe("d.first_name");
+            theField.TypedLocator.ShouldBe("d.first_name");
         }
 
         [Fact]
         public void sql_locator_with_custom_column_name()
         {
             theField.ColumnName = "x_first_name";
-            theField.SqlLocator.ShouldBe("d.x_first_name");
+            theField.TypedLocator.ShouldBe("d.x_first_name");
         }
 
         [Fact]

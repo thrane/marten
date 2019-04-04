@@ -35,7 +35,7 @@ namespace Marten.Linq.Parsing
         {
             MemberInfo[] members = FindMembers.Determine(expression);
 
-            string locator = mapping.FieldFor(members).SqlLocator;
+            string locator = mapping.FieldFor(members).TypedLocator;
             object values = expression.Arguments.Last().Value();
 
             string json = serializer.ToJson(values);

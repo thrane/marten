@@ -33,7 +33,7 @@ namespace Marten.Linq.Parsing
             var finder = new FindMembers();
             finder.Visit(expression);
             var members = finder.Members;
-            var fieldlocator = mapping.FieldFor(members).SqlLocator;
+            var fieldlocator = mapping.FieldFor(members).TypedLocator;
 
             if (IsCollectionContainsWithStringKey(expression.Method))
             {

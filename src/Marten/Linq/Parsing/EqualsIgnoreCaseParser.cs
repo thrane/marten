@@ -17,7 +17,7 @@ namespace Marten.Linq.Parsing
         {
             var members = FindMembers.Determine(expression);
 
-            var locator = mapping.FieldFor(members).SqlLocator;
+            var locator = mapping.FieldFor(members).TypedLocator;
             var value = expression.Arguments.Last().Value();
 
             return new WhereFragment($"{locator} ~~* ?", value.As<string>());

@@ -17,8 +17,8 @@ namespace Marten.Schema
 
         public MemberInfo[] Members => new[] {_idMember};
         public string MemberName => _idMember.Name;
-        public string SqlLocator { get; } = "d.id";
-        public string SelectionLocator { get; } = "d.id";
+        public string TypedLocator { get; } = "d.id";
+        public string RawLocator { get; } = "d.id";
         public string ColumnName { get; } = "id";
         public void WritePatch(DocumentMapping mapping, SchemaPatch patch)
         {
@@ -30,7 +30,7 @@ namespace Marten.Schema
             return valueExpression.Value();
         }
 
-        public Type MemberType => _idMember.GetMemberType();
+        public Type FieldType => _idMember.GetMemberType();
         public bool ShouldUseContainmentOperator()
         {
             return false;

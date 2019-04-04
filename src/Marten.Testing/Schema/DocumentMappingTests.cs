@@ -344,10 +344,10 @@ namespace Marten.Testing.Schema
         public void get_the_sql_locator_for_the_Id_member()
         {
             DocumentMapping.For<User>().FieldFor("Id")
-                .SqlLocator.ShouldBe("d.id");
+                .TypedLocator.ShouldBe("d.id");
 
             DocumentMapping.For<FieldId>().FieldFor("id")
-                .SqlLocator.ShouldBe("d.id");
+                .TypedLocator.ShouldBe("d.id");
         }
 
         [Fact]

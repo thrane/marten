@@ -18,19 +18,19 @@ namespace Marten.Schema
             Members = members;
             MemberName = members.Select(x => x.Name).Join("");
 
-            MemberType = members.Last().GetMemberType();
+            FieldType = members.Last().GetMemberType();
 
-            PgType = TypeMappings.GetPgType(MemberType, enumStorage);
+            PgType = TypeMappings.GetPgType(FieldType, enumStorage);
             _enumStorage = enumStorage;
         }
 
-        public Type MemberType { get; }
+        public Type FieldType { get; }
         public string PgType { get; set; } // settable so it can be overidden by users
 
         public MemberInfo[] Members { get; }
         public string MemberName { get; }
 
-        public NpgsqlDbType NpgsqlDbType => TypeMappings.ToDbType(MemberType);
+        public NpgsqlDbType NpgsqlDbType => TypeMappings.ToDbType(FieldType);
 
         protected readonly EnumStorage _enumStorage;
     }

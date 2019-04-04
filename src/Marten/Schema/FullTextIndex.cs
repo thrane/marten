@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
+<<<<<<< HEAD
 using System.Text.RegularExpressions;
+=======
+>>>>>>> A few renames to IField elements. Using pyramation/postgres-plv8 for the Marten Docker container
 using Baseline;
 using Marten.Storage;
 
@@ -88,7 +91,7 @@ namespace Marten.Schema
         private static string GetDataConfig(DocumentMapping mapping, MemberInfo[][] members)
         {
             var dataConfig = members
-                    .Select(m => $"({mapping.FieldFor(m).SqlLocator.Replace("d.", "")})")
+                    .Select(m => $"({mapping.FieldFor(m).TypedLocator.Replace("d.", "")})")
                     .Join(" || ' ' || ");
 
             return $"({dataConfig})";

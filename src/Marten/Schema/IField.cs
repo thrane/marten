@@ -10,16 +10,27 @@ namespace Marten.Schema
         MemberInfo[] Members { get; }
         string MemberName { get; }
 
-        string SqlLocator { get; }
+        /// <summary>
+        /// Postgresql locator that also casts the raw string data to the proper Postgresql type
+        /// </summary>
+        string TypedLocator { get; }
 
-        string SelectionLocator { get; }
+        /// <summary>
+        /// Postgresql locator that returns the raw string value within the JSONB document
+        /// </summary>
+        string RawLocator { get; }
 
         string ColumnName { get; }
 
         void WritePatch(DocumentMapping mapping, SchemaPatch patch);
         object GetValue(Expression valueExpression);
 
-        Type MemberType { get; }
+        /// <summary>
+        /// The .Net type of this IField
+        /// </summary>
+        Type FieldType { get; }
+        
+        [Obsolete]
         bool ShouldUseContainmentOperator();
         string LocatorFor(string rootTableAlias);
     }

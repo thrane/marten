@@ -22,9 +22,9 @@ namespace Marten.Testing.Schema
         [Fact]
         public void selection_locator_matches_sql_locator_for_non_dates()
         {
-            theStringField.SqlLocator.ShouldBe(theStringField.SelectionLocator);
-            theNumberField.SqlLocator.ShouldBe(theNumberField.SelectionLocator);
-            theEnumField.SqlLocator.ShouldBe(theEnumField.SelectionLocator);
+            theStringField.TypedLocator.ShouldBe(theStringField.RawLocator);
+            theNumberField.TypedLocator.ShouldBe(theNumberField.RawLocator);
+            theEnumField.TypedLocator.ShouldBe(theEnumField.RawLocator);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Marten.Testing.Schema
             var memberName = casing == Casing.Default ? "FirstName" : "firstName";
 
             JsonLocatorField.For<User>(EnumStorage.AsInteger, casing, x => x.FirstName)
-                .SqlLocator.ShouldBe($"d.data ->> '{memberName}'");
+                .TypedLocator.ShouldBe($"d.data ->> '{memberName}'");
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace Marten.Testing.Schema
         public void locator_for_number(Casing casing, string memberName)
         {
             JsonLocatorField.For<User>(EnumStorage.AsInteger, casing, x => x.Age)
-                .SqlLocator.ShouldBe($"CAST(d.data ->> '{memberName}' as integer)");
+                .TypedLocator.ShouldBe($"CAST(d.data ->> '{memberName}' as integer)");
         }
 
         [Theory]
@@ -85,7 +85,7 @@ namespace Marten.Testing.Schema
         public void locator_for_enum_in_integer_mode(Casing casing, string memberName)
         {
             JsonLocatorField.For<Target>(EnumStorage.AsInteger, casing, x => x.Color)
-                .SqlLocator.ShouldBe($"CAST(d.data ->> '{memberName}' as integer)");
+                .TypedLocator.ShouldBe($"CAST(d.data ->> '{memberName}' as integer)");
         }
 
         [Theory]
@@ -95,7 +95,7 @@ namespace Marten.Testing.Schema
         public void locator_for_enum_in_string_mode(Casing casing, string memberName)
         {
             JsonLocatorField.For<Target>(EnumStorage.AsString, casing, x => x.Color)
-                .SqlLocator.ShouldBe($"d.data ->> '{memberName}'");
+                .TypedLocator.ShouldBe($"d.data ->> '{memberName}'");
         }
 
 
@@ -110,7 +110,7 @@ namespace Marten.Testing.Schema
 
             var twodeep = new JsonLocatorField("d.data", EnumStorage.AsInteger, casing, new MemberInfo[] {inner, number});
 
-            twodeep.SqlLocator.ShouldBe($"CAST(d.data -> '{innerName}' ->> '{numberName}' as integer)");
+            twodeep.TypedLocator.ShouldBe($"CAST(d.data -> '{innerName}' ->> '{numberName}' as integer)");
         }
 
 
@@ -125,7 +125,7 @@ namespace Marten.Testing.Schema
 
             var deep = new JsonLocatorField("d.data", EnumStorage.AsInteger, casing, new MemberInfo[] { inner, inner, number });
 
-            deep.SqlLocator.ShouldBe($"CAST(d.data -> '{innerName}' -> '{innerName}' ->> '{numberName}' as integer)");
+            deep.TypedLocator.ShouldBe($"CAST(d.data -> '{innerName}' -> '{innerName}' ->> '{numberName}' as integer)");
         }
 
         [Theory]
@@ -139,7 +139,7 @@ namespace Marten.Testing.Schema
 
             var deep = new JsonLocatorField("d.data", EnumStorage.AsInteger, casing, new MemberInfo[] { inner, inner, stringProp });
 
-            deep.SqlLocator.ShouldBe($"d.data -> '{innerName}' -> '{innerName}' ->> '{stringName}'");
+            deep.TypedLocator.ShouldBe($"d.data -> '{innerName}' -> '{innerName}' ->> '{stringName}'");
         }
 
         public class DocWithDates
@@ -160,16 +160,16 @@ namespace Marten.Testing.Schema
         public void do_not_use_timestamp_functions_on_selection_locator_for_dates(Casing casing, string dateTimeName, string nullableDateTimeName, string dateTimeOffsetName, string nullableDateTimeOffsetName)
         {
             JsonLocatorField.For<DocWithDates>(EnumStorage.AsString, casing, x => x.DateTime)
-                .SelectionLocator.ShouldBe($"CAST(d.data ->> '{dateTimeName}' as timestamp without time zone)");
+                .RawLocator.ShouldBe($"CAST(d.data ->> '{dateTimeName}' as timestamp without time zone)");
             
             JsonLocatorField.For<DocWithDates>(EnumStorage.AsString, casing, x => x.NullableDateTime)
-                .SelectionLocator.ShouldBe($"CAST(d.data ->> '{nullableDateTimeName}' as timestamp without time zone)");
+                .RawLocator.ShouldBe($"CAST(d.data ->> '{nullableDateTimeName}' as timestamp without time zone)");
             
             JsonLocatorField.For<DocWithDates>(EnumStorage.AsString, casing, x => x.DateTimeOffset)
-                .SelectionLocator.ShouldBe($"CAST(d.data ->> '{dateTimeOffsetName}' as timestamp with time zone)");
+                .RawLocator.ShouldBe($"CAST(d.data ->> '{dateTimeOffsetName}' as timestamp with time zone)");
 
             JsonLocatorField.For<DocWithDates>(EnumStorage.AsString, casing, x => x.NullableDateTimeOffset)
-                .SelectionLocator.ShouldBe($"CAST(d.data ->> '{nullableDateTimeOffsetName}' as timestamp with time zone)");
+                .RawLocator.ShouldBe($"CAST(d.data ->> '{nullableDateTimeOffsetName}' as timestamp with time zone)");
                 
         }
     }

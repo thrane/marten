@@ -21,7 +21,7 @@ namespace Marten.Linq.Parsing
 
             var members = finder.Members;
 
-            var locator = mapping.FieldFor(members).SqlLocator;
+            var locator = mapping.FieldFor(members).TypedLocator;
             var values = expression.Object.Value();
 
             return new WhereFragment($"{locator} = ANY(?)", values);

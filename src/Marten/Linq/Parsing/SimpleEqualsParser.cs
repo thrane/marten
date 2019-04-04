@@ -44,7 +44,7 @@ namespace Marten.Linq.Parsing
         public IWhereFragment Parse(IQueryableDocument mapping, ISerializer serializer, MethodCallExpression expression)
         {
             var field = GetField(mapping, expression);
-            var locator = field.SqlLocator;
+            var locator = field.TypedLocator;
 
             var value = expression.Arguments.OfType<ConstantExpression>().FirstOrDefault();
             if (value == null) throw new BadLinqExpressionException("Could not extract value from {0}.".ToFormat(expression), null);
