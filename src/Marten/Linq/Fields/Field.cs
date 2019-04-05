@@ -6,6 +6,7 @@ using Marten.Util;
 
 namespace Marten.Linq.Fields
 {
+    [Obsolete("Replace with new FieldBase")]
     public abstract class Field
     {
         protected Field(EnumStorage enumStorage, MemberInfo member) : this(enumStorage, new[] { member })

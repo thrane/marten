@@ -13,6 +13,7 @@ namespace Marten.Linq.Fields
     {
         private static readonly IFieldSource[] _defaultFieldSources = new IFieldSource[]
         {
+            new EnumFieldSource(), 
             new DefaultFieldSource(), 
         };
         
