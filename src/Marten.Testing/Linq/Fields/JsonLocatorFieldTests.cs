@@ -61,7 +61,8 @@ namespace Marten.Testing.Linq.Fields
         [Fact]
         public void make_datetime_fields_be_containment()
         {
-            JsonLocatorField.For<Target>(EnumStorage.AsInteger, Casing.Default, x => x.Date)
+            var dateField = JsonLocatorField.For<Target>(EnumStorage.AsInteger, Casing.Default, x => x.Date);
+            dateField
                 .ShouldUseContainmentOperator().ShouldBeTrue();
 
             JsonLocatorField.For<Target>(EnumStorage.AsInteger, Casing.Default, x => x.DateOffset)

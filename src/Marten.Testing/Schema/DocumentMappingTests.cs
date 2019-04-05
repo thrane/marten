@@ -533,21 +533,6 @@ namespace Marten.Testing.Schema
             mapping.SelectFields().ShouldHaveTheSameElementsAs("data", "id", DocumentMapping.VersionColumn);
         }
 
-        [Fact]
-        public void switch_to_only_using_json_locator_fields()
-        {
-            var mapping = DocumentMapping.For<User>();
-
-            mapping.DuplicateField(nameof(User.FirstName));
-
-            mapping.PropertySearching = PropertySearching.JSON_Locator_Only;
-
-            mapping.FieldFor(nameof(User.LastName)).ShouldBeOfType<JsonLocatorField>();
-
-            // leave duplicates alone
-
-            mapping.FieldFor(nameof(User.FirstName)).ShouldBeOfType<DuplicatedField>();
-        }
 
         [Fact]
         public void table_name_for_document()

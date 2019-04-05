@@ -5,18 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
-using Marten.Schema;
+using Marten.Util;
 
 namespace Marten.Linq.Fields
 {
     public class FieldCollection
     {
-        private static readonly IFieldSource[] _defaultFieldSources = new IFieldSource[]
-        {
-            new EnumFieldSource(), 
-            new DefaultFieldSource(), 
-        };
-        
         private readonly string _dataLocator;
         private readonly Type _documentType;
         private readonly StoreOptions _options;
@@ -31,18 +25,6 @@ namespace Marten.Linq.Fields
             _serializer = options.Serializer();
         }
 
-        private IEnumerable<IFieldSource> allFieldSources()
-        {
-            foreach (var source in _options.FieldSources)
-            {
-                yield return source;
-            }
-
-            foreach (var source in _defaultFieldSources)
-            {
-                yield return source;
-            }
-        }
 
         protected void removeIdField()
         {
@@ -92,7 +74,7 @@ namespace Marten.Linq.Fields
 
         private IField resolveField(MemberInfo[] members)
         {
-            foreach (var source in allFieldSources())
+            foreach (var source in _options.FieldSources)
             {
                 if (source.TryResolve(_dataLocator, _options, _serializer, _documentType, members, out var field))
                 {
@@ -100,7 +82,51 @@ namespace Marten.Linq.Fields
                 }
             }
 
-            return null;
+            var fieldType = members.Last().GetMemberType();
+
+            if (fieldType == typeof(string))
+            {
+                return new StringField(_dataLocator, _serializer.Casing, members);
+            }
+
+            if (fieldType.IsEnum)
+            {
+                return _serializer.EnumStorage == EnumStorage.AsInteger
+                    ? (IField) new EnumAsIntegerField(_dataLocator, _serializer.Casing, members)
+                    : new EnumAsStringField(_dataLocator, _serializer.Casing, members);
+            }
+
+            if (fieldType == typeof(DateTime) || fieldType == typeof(DateTime?))
+            {
+                return new DateTimeField(_dataLocator, _options.DatabaseSchemaName, _serializer.Casing, members);
+            }
+            
+            if (fieldType == typeof(DateTimeOffset) || fieldType == typeof(DateTimeOffset?))
+            {
+                return new DateTimeOffsetField(_dataLocator, _options.DatabaseSchemaName, _serializer.Casing, members);
+            }
+
+            if (fieldType.IsArray)
+            {
+                return new SimpleCastField(_dataLocator, "jsonb", _serializer.Casing, members);
+            }
+
+            var pgType = TypeMappings.GetPgType(fieldType, _serializer.EnumStorage);
+            if (pgType.IsNotEmpty())
+            {
+                return new SimpleCastField(_dataLocator, pgType, _serializer.Casing, members);
+            }
+            
+
+            if (members.Length == 1)
+            {
+                return new JsonLocatorField(_dataLocator, _options, _serializer.EnumStorage, _serializer.Casing, members.Single());
+            }
+            else
+            {
+                return new JsonLocatorField(_dataLocator, _serializer.EnumStorage, _serializer.Casing, members);
+            }
+                
         }
 
         public IField FieldFor(string memberName)
