@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Baseline.Reflection;
 using Marten.Linq;
+using Marten.Linq.Fields;
 using Marten.Util;
 
 namespace Marten.Schema

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Baseline;
 using Baseline.Reflection;
 using Marten.Linq;
+using Marten.Linq.Fields;
 using Marten.Schema.Identity;
 using Marten.Schema.Identity.Sequences;
 using Marten.Schema.Indexing.Unique;

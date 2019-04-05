@@ -5,9 +5,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
-using Marten.Linq;
+using Marten.Schema;
 
-namespace Marten.Schema
+namespace Marten.Linq.Fields
 {
     public class FieldCollection
     {

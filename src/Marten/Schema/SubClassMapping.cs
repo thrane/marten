@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
 using Marten.Linq;
+using Marten.Linq.Fields;
 using Marten.Schema.Hierarchies;
 using Marten.Schema.Identity;
 using Marten.Services.Includes;

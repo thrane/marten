@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Baseline;
 using Marten.Linq;
+using Marten.Linq.Fields;
 using Marten.Schema;
 using Marten.Schema.Identity;
 using Marten.Services;

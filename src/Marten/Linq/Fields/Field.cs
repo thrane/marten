@@ -3,9 +3,8 @@ using System.Linq;
 using System.Reflection;
 using Baseline;
 using Marten.Util;
-using NpgsqlTypes;
 
-namespace Marten.Schema
+namespace Marten.Linq.Fields
 {
     public abstract class Field
     {

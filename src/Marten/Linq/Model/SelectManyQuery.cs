@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Baseline;
 using Baseline.Conversion;
+using Marten.Linq.Fields;
 using Marten.Schema;
 using Marten.Services.Includes;
 using Marten.Util;

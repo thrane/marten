@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
 using Baseline.Reflection;
+using Marten.Linq.Fields;
 using Marten.Linq.Parsing;
 using Marten.Schema;
 using Marten.Util;

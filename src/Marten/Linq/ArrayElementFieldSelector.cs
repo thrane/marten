@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 using Baseline.Conversion;
+using Marten.Linq.Fields;
 using Marten.Schema;
 using Marten.Services;
 
