@@ -1,11 +1,9 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using Marten.Linq;
-using Marten.Linq.Fields;
 using Marten.Util;
 
-namespace Marten.Schema
+namespace Marten.Linq.Fields
 {
     public class IdField : IField
     {

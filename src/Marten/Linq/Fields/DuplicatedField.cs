@@ -3,14 +3,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
 using Baseline.Reflection;
-using Marten.Linq;
-using Marten.Linq.Fields;
 using Marten.Schema.Arguments;
 using Marten.Storage;
 using Marten.Util;
 using NpgsqlTypes;
 
-namespace Marten.Schema
+namespace Marten.Linq.Fields
 {
     public class DuplicatedField : Field, IField
     {

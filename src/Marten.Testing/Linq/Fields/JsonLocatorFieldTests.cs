@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Reflection;
 using Baseline.Reflection;
-using Marten.Schema;
+using Marten.Linq.Fields;
 using Marten.Testing.Documents;
 using Shouldly;
 using Xunit;
 
-namespace Marten.Testing.Schema
+namespace Marten.Testing.Linq.Fields
 {
     public class JsonLocatorFieldTests
     {

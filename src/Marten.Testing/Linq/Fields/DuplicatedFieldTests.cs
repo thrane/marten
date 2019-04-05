@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using Baseline.Reflection;
-using Marten.Schema;
+using Marten.Linq.Fields;
 using Marten.Testing.Documents;
 using NpgsqlTypes;
 using Shouldly;
 using Xunit;
 
-namespace Marten.Testing.Schema
+namespace Marten.Testing.Linq.Fields
 {
     public class DuplicatedFieldTests
     {

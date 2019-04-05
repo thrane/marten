@@ -3,11 +3,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Baseline.Reflection;
-using Marten.Linq;
-using Marten.Linq.Fields;
+using Marten.Schema;
 using Marten.Util;
 
-namespace Marten.Schema
+namespace Marten.Linq.Fields
 {
     public class JsonLocatorField : Field, IField
     {
