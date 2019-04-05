@@ -16,8 +16,7 @@ namespace Marten.Schema
 
         IncludeJoin<TOther> JoinToInclude<TOther>(JoinType joinType, IQueryableDocument other, MemberInfo[] members, Action<TOther> callback);
 
-        [Obsolete("This needs to go away")]
-        IField FieldFor(IEnumerable<MemberInfo> members);
+        IField FieldFor(MemberInfo[] members);
         
         IField FieldFor(MemberInfo member);
 

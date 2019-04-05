@@ -59,7 +59,7 @@ namespace Marten.Events
             return new[] {"id", "data"};
         }
 
-        public IField FieldFor(IEnumerable<MemberInfo> members)
+        public IField FieldFor(MemberInfo[] members)
         {
             return _inner.FieldFor(members);
         }

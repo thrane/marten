@@ -65,6 +65,8 @@ namespace Marten.Schema
 
         public JsonLocatorField(string dataLocator, EnumStorage enumStyle, Casing casing, MemberInfo[] members) : base(enumStyle, members)
         {
+            if (members == null || members.Length == 0) throw new ArgumentNullException(nameof(members));
+            
             var locator = dataLocator;
 
             for (int i = 0; i < members.Length - 1; i++)

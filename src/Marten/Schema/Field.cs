@@ -30,7 +30,7 @@ namespace Marten.Schema
         public MemberInfo[] Members { get; }
         public string MemberName { get; }
 
-
+        [Obsolete("Try to eliminate this")]
         protected readonly EnumStorage _enumStorage;
     }
 }

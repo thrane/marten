@@ -365,6 +365,8 @@ namespace Marten
                 return ForAllDocuments(_ => _.TenancyStyle = TenancyStyle.Conjoined);
             }
         }
+        
+        public readonly IList<IFieldSource> FieldSources = new List<IFieldSource>();
     }
 
     public interface IDocumentPolicy

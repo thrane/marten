@@ -81,7 +81,7 @@ namespace Marten.Schema
             return new[] {"data", "id", DocumentMapping.DocumentTypeColumn, DocumentMapping.VersionColumn };
         }
 
-        public IField FieldFor(IEnumerable<MemberInfo> members)
+        public IField FieldFor(MemberInfo[] members)
         {
             return Parent.FieldFor(members) ?? _inner.FieldFor(members);
         }
