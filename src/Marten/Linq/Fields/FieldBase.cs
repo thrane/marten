@@ -43,7 +43,7 @@ namespace Marten.Linq.Fields
         
         public MemberInfo[] Members { get; }
         
-        public string RawLocator { get; }
+        public string RawLocator { get; protected set; }
 
         public string TypedLocator { get; protected set; }
         

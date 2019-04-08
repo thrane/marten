@@ -72,7 +72,7 @@ namespace Marten.Linq.Fields
                 name => resolveField(new []{member}));
         }
 
-        private IField resolveField(MemberInfo[] members)
+        protected IField resolveField(MemberInfo[] members)
         {
             foreach (var source in _options.FieldSources)
             {
@@ -88,6 +88,8 @@ namespace Marten.Linq.Fields
             {
                 return new StringField(_dataLocator, _serializer.Casing, members);
             }
+            
+            
 
             if (fieldType.IsEnum)
             {
@@ -108,7 +110,7 @@ namespace Marten.Linq.Fields
 
             if (fieldType.IsArray)
             {
-                return new SimpleCastField(_dataLocator, "jsonb", _serializer.Casing, members);
+                return new JSONBField(_dataLocator, _serializer.Casing, members);
             }
 
             var pgType = TypeMappings.GetPgType(fieldType, _serializer.EnumStorage);
@@ -117,15 +119,8 @@ namespace Marten.Linq.Fields
                 return new SimpleCastField(_dataLocator, pgType, _serializer.Casing, members);
             }
             
-
-            if (members.Length == 1)
-            {
-                return new JsonLocatorField(_dataLocator, _options, _serializer.EnumStorage, _serializer.Casing, members.Single());
-            }
-            else
-            {
-                return new JsonLocatorField(_dataLocator, _serializer.EnumStorage, _serializer.Casing, members);
-            }
+            throw new NotSupportedException($"Marten does not support Linq expressions for this member. Was {_documentType.FullName}.{members.Select(x => x.Name).Join(".")}");
+            
                 
         }
 

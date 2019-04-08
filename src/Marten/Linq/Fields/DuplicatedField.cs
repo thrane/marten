@@ -83,13 +83,14 @@ namespace Marten.Linq.Fields
                 TypedLocator = "d." + _columnName;
             }
         }
+        
+        internal IField MatchingNonDuplicatedField { get; set; }
 
         // TODO -- have this take in CommandBuilder
         public string UpdateSqlFragment()
         {
-            var jsonField = new JsonLocatorField("d.data", _enumStorage, Casing.Default, Members);
             // HOKEY, but I'm letting it pass for now.
-            var sqlLocator = jsonField.TypedLocator.Replace("d.", "");
+            var sqlLocator = MatchingNonDuplicatedField.TypedLocator.Replace("d.", "");
 
             return $"{ColumnName} = {sqlLocator}";
         }
