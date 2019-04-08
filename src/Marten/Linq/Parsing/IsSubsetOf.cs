@@ -33,7 +33,7 @@ namespace Marten.Linq.Parsing
 
         public IWhereFragment Parse(IQueryableDocument mapping, ISerializer serializer, MethodCallExpression expression)
         {
-            string locator = mapping.FieldFor(expression).TypedLocator;
+            string locator = mapping.FieldFor(expression).JSONBLocator;
             object values = expression.Arguments.Last().Value();
 
             string json = serializer.ToJson(values);

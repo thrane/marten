@@ -31,7 +31,14 @@ namespace Marten.Linq.Fields
             RawLocator = TypedLocator = $"{parentLocator} ->> '{lastMemberName}'";
 
             PgType = pgType;
+            
+            JSONBLocator = $"CAST({RawLocator} as jsonb)";
         }
+
+        /// <summary>
+        /// Locate the data for this field as JSONB
+        /// </summary>
+        public string JSONBLocator { get; set; }
 
         protected string lastMemberName { get;  }
 

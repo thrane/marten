@@ -108,14 +108,18 @@ namespace Marten.Linq.Fields
                 return new DateTimeOffsetField(_dataLocator, _options.DatabaseSchemaName, _serializer.Casing, members);
             }
 
-            if (fieldType.IsArray)
-            {
-                return new JSONBField(_dataLocator, _serializer.Casing, members);
-            }
+
 
             var pgType = TypeMappings.GetPgType(fieldType, _serializer.EnumStorage);
+            
+            
             if (pgType.IsNotEmpty())
             {
+                if (fieldType.IsArray)
+                {
+                    return new ArrayField(_dataLocator, pgType, _serializer.Casing, members);
+                }
+                
                 return new SimpleCastField(_dataLocator, pgType, _serializer.Casing, members);
             }
             

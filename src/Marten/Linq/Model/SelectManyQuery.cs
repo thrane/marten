@@ -53,7 +53,7 @@ namespace Marten.Linq.Model
 
         public int Index { get; set; }
 
-        public string SqlLocator => _field.TypedLocator;
+        public string SqlLocator => _field.JSONBLocator;
 
         public bool IsDistinct { get; }
 
@@ -96,11 +96,11 @@ namespace Marten.Linq.Model
             }
 
             if (typeof(T) == typeof(string))
-                return new SingleFieldSelector<T>(IsDistinct, $"jsonb_array_elements_text({_field.TypedLocator}) as x");
+                return new SingleFieldSelector<T>(IsDistinct, $"jsonb_array_elements_text({_field.JSONBLocator}) as x");
             if (TypeMappings.HasTypeMapping(typeof(T)))
                 return new ArrayElementFieldSelector<T>(IsDistinct, _field, conversions);
 
-            return new DeserializeSelector<T>(serializer, $"jsonb_array_elements_text({_field.TypedLocator}) as x");
+            return new DeserializeSelector<T>(serializer, $"jsonb_array_elements_text({_field.JSONBLocator}) as x");
         }
 
         public string RawChildElementField()

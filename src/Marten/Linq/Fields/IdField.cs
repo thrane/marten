@@ -24,6 +24,8 @@ namespace Marten.Linq.Fields
         }
 
         public Type FieldType => _idMember.GetMemberType();
+        public string JSONBLocator { get; } = null;
+
         public bool ShouldUseContainmentOperator()
         {
             return false;

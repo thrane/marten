@@ -145,7 +145,7 @@ namespace Marten.Linq
             {
                 var value = field.GetValueForCompiledQueryParameter(valueExpression);
 
-                return new WhereFragment($"jsonb_array_length({field.TypedLocator}) {op} ?", value);
+                return new WhereFragment($"jsonb_array_length({field.JSONBLocator}) {op} ?", value);
             }
 
             throw new NotSupportedException("Marten does not yet support this type of Linq query against child collections");

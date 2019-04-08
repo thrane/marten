@@ -30,7 +30,12 @@ namespace Marten.Linq.Fields
         /// The .Net type of this IField
         /// </summary>
         Type FieldType { get; }
-        
+
+        /// <summary>
+        /// Locate the data for this field as JSONB
+        /// </summary>
+        string JSONBLocator { get; }
+
         [Obsolete]
         bool ShouldUseContainmentOperator();
         

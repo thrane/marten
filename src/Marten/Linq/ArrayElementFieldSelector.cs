@@ -13,7 +13,7 @@ namespace Marten.Linq
     {
         private readonly Func<string, object> _converter;
 
-        public ArrayElementFieldSelector(bool distinct, IField field, Conversions conversions) : base(distinct, $"jsonb_array_elements_text({field.TypedLocator})")
+        public ArrayElementFieldSelector(bool distinct, IField field, Conversions conversions) : base(distinct, $"jsonb_array_elements_text({field.JSONBLocator})")
         {
             _converter = conversions.FindConverter(typeof(T));
         }

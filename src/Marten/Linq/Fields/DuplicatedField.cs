@@ -100,6 +100,8 @@ namespace Marten.Linq.Fields
             return _parseObject(valueExpression);
         }
 
+        public string JSONBLocator { get; set; }
+
         public bool ShouldUseContainmentOperator()
         {
             return false;
