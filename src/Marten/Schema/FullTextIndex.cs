@@ -1,9 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
-<<<<<<< HEAD
 using System.Text.RegularExpressions;
-=======
->>>>>>> A few renames to IField elements. Using pyramation/postgres-plv8 for the Marten Docker container
 using Baseline;
 using Marten.Storage;
 
